@@ -2,8 +2,9 @@
   "name": "tickets-api",
   "version": "1.0.0",
   "description": "Helpdesk system where the focus is create e solve tickets about Technology",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
+    "start": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
