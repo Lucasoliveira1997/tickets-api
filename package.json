@@ -20,5 +20,8 @@
   "homepage": "https://github.com/Lucasoliveira1997/tickets-api#readme",
   "dependencies": {
     "restify": "8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }
