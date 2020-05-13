@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Lucasoliveira1997/tickets-api/issues"
   },
-  "homepage": "https://github.com/Lucasoliveira1997/tickets-api#readme"
+  "homepage": "https://github.com/Lucasoliveira1997/tickets-api#readme",
+  "dependencies": {
+    "restify": "8.5.1"
+  }
 }
