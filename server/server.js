@@ -1,18 +1,16 @@
+'use strict'
 const restify = require('restify')
-restify.createServer
+const environment = require('../common/environment')
 
 class Server {
-
-    initRoutes() {
-        this.application = null
-
+    initRoutes() {        
         return new Promise((resolve, reject) => {
             try {
                 this.application = restify.createServer({
                     name: 'tickets-api',
                     version: '1.0.0'
                 })
-
+                
                 this.application.get('/', (req, resp, next) => {
                     resp.status(200)
                     resp.json({
@@ -25,7 +23,7 @@ class Server {
                     return next()
                 })
 
-                this.application.listen(4000, () => {
+                this.application.listen(environment.server.port, () => {
                     resolve(this.application)
                 })
 
