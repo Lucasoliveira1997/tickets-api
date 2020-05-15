@@ -1,8 +1,16 @@
 'use strict'
 const restify = require('restify')
 const environment = require('../common/environment')
+const mongoose = require('mongoose')
 
 class Server {
+    initializeDb() {        
+          mongoose.Promise = global.Promise
+            mongoose.set('useCreateIndex', true)
+            mongoose.connection.on('connected', () => console.log('Database is connected'))            
+            return mongoose.connect(environment.db.url, environment.db.options)
+    }
+
     initRoutes() {        
         return new Promise((resolve, reject) => {
             try {
@@ -34,8 +42,9 @@ class Server {
     }
 
     bootstrap() {
-        return this.initRoutes()
-                    .then(() => this)
+        return this.initializeDb().then(() => {
+            return this.initRoutes().then(() => this)
+        })
     }
 }
 
