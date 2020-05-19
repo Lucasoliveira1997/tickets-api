@@ -11,14 +11,13 @@ class Server {
             return mongoose.connect(environment.db.url, environment.db.options)
     }
 
-    initRoutes() {        
+    initRoutes(routers) {        
         return new Promise((resolve, reject) => {
             try {
                 this.application = restify.createServer({
                     name: 'tickets-api',
                     version: '1.0.0'
                 })
-                
                 this.application.get('/', (req, resp, next) => {
                     resp.status(200)
                     resp.json({
@@ -35,15 +34,19 @@ class Server {
                     resolve(this.application)
                 })
 
+                for (let router of routers) {
+                    router(this.application)
+                }
+
             } catch (error) {
                 reject(error)
             }
         })
     }
 
-    bootstrap() {
+    bootstrap(routers = []) {
         return this.initializeDb().then(() => {
-            return this.initRoutes().then(() => this)
+            return this.initRoutes(routers).then(() => this)
         })
     }
 }
