@@ -18,6 +18,10 @@ class Server {
                     name: 'tickets-api',
                     version: '1.0.0'
                 })
+
+                this.application.use(restify.plugins.queryParser())
+                this.application.use(restify.plugins.bodyParser())
+
                 this.application.get('/', (req, resp, next) => {
                     resp.status(200)
                     resp.json({
