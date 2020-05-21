@@ -15,19 +15,52 @@ module.exports = server => {
             const newUser = await user.save()
             resp.status(201)
             resp.send(newUser)
-            next()
+            return next()
         } catch (error) {
-            next(new errors.InternalError(error.message))
+            return next(new errors.InternalError(error.message))
         }
     })
 
     server.get('/users', async (req, resp, next) => {
         try {
             const users = await User.find({})
+            resp.status(200)
             resp.send(users)
-            next()
+            return next()
         } catch (error) {
-            return next(new errors.InvalidContentError(err))
+            return next(new errors.InvalidContentError(error.message))
+        }
+    })
+
+    server.get('/users/:id', async (req, resp, next) => {
+        try {
+            const user = await User.findById(req.params.id)                
+                resp.status(200)
+                resp.send(user)
+                return next()
+        } catch (error) {
+            return next(new errors.InvalidContentError(error.message))
+        }
+    })
+
+    server.put('/users/:id', async (req, resp, next) => {
+        try {
+            const options = {new: true}
+            const user = await User.findByIdAndUpdate(req.params.id, req.body, options)
+            resp.send(user)
+            return next()
+        } catch (error) {
+            return next(new errors.InvalidContentError(error.message))
+        }
+    })
+
+    server.del('/users/:id', async (req, resp, next) => {
+        try {
+            await User.findByIdAndRemove(req.params.id)
+            resp.send(204)
+            return next()
+        } catch (error) {
+            return next(new errors.InvalidContentError(error.message))
         }
     })
 }
