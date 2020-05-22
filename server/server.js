@@ -7,6 +7,7 @@ class Server {
     initializeDb() {        
           mongoose.Promise = global.Promise
             mongoose.set('useCreateIndex', true)
+            mongoose.set('useFindAndModify', false)
             mongoose.connection.on('connected', () => console.log('Database is connected'))            
             return mongoose.connect(environment.db.url, environment.db.options)
     }

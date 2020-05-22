@@ -1,0 +1,14 @@
+// Criação de usuário
+{
+    "name": "",
+    "email": "",
+    "department": "",
+    "password": "",
+}
+
+// Criação de Chamado
+{
+    "user": "",
+    "about": "",
+    "description": ""
+}
