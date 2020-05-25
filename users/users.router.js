@@ -1,6 +1,8 @@
 'use strict'
 const User = require('./users.model')
 const errors = require('restify-errors')
+const _router = require('../common/router')
+const router = new _router
 
 module.exports = server => {
     server.post('/users', async (req, resp, next) => {
@@ -13,9 +15,7 @@ module.exports = server => {
         try {
             const user = await new User({ name, email, department, password })
             const newUser = await user.save()
-            resp.status(201)
-            resp.send(newUser)
-            return next()
+            await router.render(resp, next, newUser)
         } catch (error) {
             return next(new errors.InternalError(error.message))
         }
@@ -24,9 +24,7 @@ module.exports = server => {
     server.get('/users', async (req, resp, next) => {
         try {
             const users = await User.find({})
-            resp.status(200)
-            resp.send(users)
-            return next()
+            await router.render(resp, next, users)
         } catch (error) {
             return next(new errors.InvalidContentError(error.message))
         }
@@ -35,9 +33,7 @@ module.exports = server => {
     server.get('/users/:id', async (req, resp, next) => {
         try {
             const user = await User.findById(req.params.id)                
-                resp.status(200)
-                resp.send(user)
-                return next()
+            await router.render(resp, next, user)
         } catch (error) {
             return next(new errors.InvalidContentError(error.message))
         }
@@ -47,7 +43,7 @@ module.exports = server => {
         try {
             const options = {new: true}
             const user = await User.findByIdAndUpdate(req.params.id, req.body, options)
-            resp.send(user)
+            await router.render(resp, next, user)
             return next()
         } catch (error) {
             return next(new errors.InvalidContentError(error.message))

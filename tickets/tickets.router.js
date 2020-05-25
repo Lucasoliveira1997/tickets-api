@@ -3,6 +3,8 @@
 const errors = require('restify-errors')
 const mongoose = require('mongoose')
 const Ticket = require('./tickets.model')
+const _router = require('../common/router')
+const router = new _router
 
 module.exports = server => {
     server.post('/tickets', async(req, resp, next) => {
@@ -14,10 +16,8 @@ module.exports = server => {
 
         try {
             const ticket = await new Ticket({user, about, description})
-            const newTicket = ticket.save()
-            resp.status(201)
-            resp.send(newTicket)
-            return next()
+            const newTicket = await ticket.save()
+            await router.render(resp, next, newTicket)
         } catch (error) {
             return next(new errors.InternalError(error.message))
         }
@@ -25,11 +25,8 @@ module.exports = server => {
 
     server.get('/tickets', async(req, resp, next) => {
         try {
-            const ticket = await Ticket.find({})
-            resp.status(200)
-            resp.send(ticket)
-            return next()
-
+            const tickets = await Ticket.find({})       
+            await router.render(resp, next, tickets)
         } catch (error) {
             return next(new errors.InvalidContentError(error.message))
         }
@@ -37,9 +34,7 @@ module.exports = server => {
     server.get('/tickets/:id', async(req, resp, next) => {
         try {
             const ticket = await Ticket.findById(req.params.id)
-            resp.status(200)
-            resp.send(ticket)
-            return next()
+            await router.render(resp, next, ticket)
         } catch (error) {
             return next(new errors.InvalidContentError(error.message))
         }
@@ -48,9 +43,7 @@ module.exports = server => {
         try {
             const options = {new: true}
             const ticketUpdated = await Ticket.findByIdAndUpdate(req.params.id, req.body, options)
-            resp.status(200)
-            resp.send(ticketUpdated)
-            return next()
+            await router.render(resp, next, ticketUpdated)
         } catch (error) {
             return next(new errors.InvalidContentError(error.message))
         }

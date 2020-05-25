@@ -3,12 +3,12 @@
     "name": "",
     "email": "",
     "department": "",
-    "password": "",
+    "password": ""
 }
 
 // Criação de Chamado
 {
-    "user": "",
-    "about": "",
-    "description": ""
+    "user": "5ecc1f471dec471c38ad5d15",
+    "about": "printer",
+    "description": "printer is not printing"
 }
