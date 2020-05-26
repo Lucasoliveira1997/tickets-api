@@ -3,6 +3,8 @@ const restify = require('restify')
 const environment = require('../common/environment')
 const mongoose = require('mongoose')
 
+const handleError = require('./error.handler')
+
 class Server {
     initializeDb() {        
           mongoose.Promise = global.Promise
@@ -34,6 +36,8 @@ class Server {
                     })                    
                     return next()
                 })
+
+                this.application.on('restifyError', handleError)
 
                 this.application.listen(environment.server.port, () => {
                     resolve(this.application)
