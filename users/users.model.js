@@ -5,8 +5,11 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true, lowercase: true},
-    department: {type: String, required: true, enum: ['ti', 'rh', 'compras', 'fiscal']},
     password: {type: String, required: true},
+    department: {type: String, required: true, enum: ['ti', 'rh', 'compras', 'fiscal']},
+    phone: {type: String, required: true},
+    status: {type: Boolean, required: true},
+    category: {type: String, required: true, enum: ['user', 'admin']},
     createdAt: {type: Date, default: Date.now}
 })
 

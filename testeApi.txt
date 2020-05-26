@@ -1,9 +1,13 @@
 // Criação de usuário
 {
     "name": "",
+    "password": "",
     "email": "",
     "department": "",
-    "password": ""
+    "phone": "",
+    "status": "",
+    "category": ""
+
 }
 
 // Criação de Chamado
