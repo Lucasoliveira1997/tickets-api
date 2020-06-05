@@ -1,19 +1,19 @@
 'use strict'
-const User = require('./users.model')
-const errors = require('restify-errors')
-const _router = require('../common/router')
-const router = new _router
+require('./users.model')
+
+const _modelRouter = require('../common/model.router')
+const modelRouter = new _modelRouter('User')
 
 module.exports = server => {
     server.post('/users', async (req, resp, next) => {
         if(!req.is('application/json')){
-            return next(new errors.InvalidContentError("Expects 'application/json"))
+            return next(new errors.InvalidContentError("Expects 'application/json'"))
         }
 
-        const {name, email, department, password} = req.body
+        const {name, password, email, department, phone, status, category} = req.body
 
         try {
-            const user = await new User({ name, email, department, password })
+            const user = await new User({ name, email, department, password, phone, status, category })
             const newUser = await user.save()
             await router.render(resp, next, newUser)
         } catch (error) {
@@ -21,14 +21,7 @@ module.exports = server => {
         }
     })
 
-    server.get('/users', async (req, resp, next) => {
-        try {
-            const users = await User.find({})
-            await router.render(resp, next, users)
-        } catch (error) {
-            return next(new errors.InvalidContentError(error.message))
-        }
-    })
+    server.get('/users', modelRouter.get)
 
     server.get('/users/:id', async (req, resp, next) => {
         try {

@@ -7,7 +7,6 @@
     "phone": "",
     "status": "",
     "category": ""
-
 }
 
 // Criação de Chamado

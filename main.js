@@ -15,5 +15,5 @@ server.bootstrap([
             .catch(error => {
                 console.log('Server failed to start')
                 console.error(error)
-                process.exit(1)                                
+                process.exit(1)
             })

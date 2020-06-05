@@ -4,8 +4,8 @@
   "description": "Helpdesk system where the focus is create e solve tickets about Technology",
   "main": "main.js",
   "scripts": {
-    "start": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon",    
+    "production": ""
   },
   "repository": {
     "type": "git",
