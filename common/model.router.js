@@ -35,7 +35,7 @@ class ModelRouter extends Router {
             try {
                 const model = await new this._model(req.body)
                 const document = await model.save()
-                await router.render(resp, next, document)
+                await this.render(resp, next, document)
             } catch (error) {
                 return next(new errors.InternalError(error.message))
             }
@@ -44,15 +44,15 @@ class ModelRouter extends Router {
         this.update = async (req, resp, next) => {
             try {
                 const options = { new: true }
-                const document = await User.findByIdAndUpdate(req.params.id, req.body, options)
-                await router.render(resp, next, document)
+                const document = await this._model.findByIdAndUpdate(req.params.id, req.body, options)
+                await this.render(resp, next, document)
                 return next()
             } catch (error) {
                 return next(new errors.InvalidContentError(error.message))
             }
         }
 
-        this.remove = async (req, resp, next) => {
+        this.delete = async (req, resp, next) => {
             try {
                 await this._model.findByIdAndRemove(req.params.id)
                 resp.send(204)

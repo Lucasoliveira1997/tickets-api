@@ -13,5 +13,5 @@ module.exports = server => {
 
     server.put('/users/:id', modelRouter.update)
 
-    server.del('/users/:id', modelRouter.remove)
+    server.del('/users/:id', modelRouter.delete)
 }
