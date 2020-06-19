@@ -1,18 +1,20 @@
 'use strict'
 
 module.exports = (req, resp, err, done) => {
-
+    console.log(err.body)    
     // err.toJSON = () => {        
-    //     return {
-    //         message: err.message
+    //     return {            
+    //         message: err.code
     //     }
     // }
 
     // switch(err.name) {
-    //     case '' : 
-    //     err.statusCode = 400
-    //     break
+    //     case 'InvalidContentError' : 
+    //         err.statusCode = 400
+    //         break
     // }
+
+
 
     done()
 }

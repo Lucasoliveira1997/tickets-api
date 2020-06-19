@@ -12,7 +12,7 @@ class ModelRouter extends Router {
         this.get = async (req, resp, next) => {
             try {
                 const document = await this._model.find({})
-                return this.render(resp, next, document)
+                return this.render(resp, next, document, 200)
             } catch (error) {
                 next(new errors.NotFoundError('Document Not Found'))
             }
@@ -21,9 +21,9 @@ class ModelRouter extends Router {
         this.getById = async (req, resp, next) => {
             try {
                 const document = await this._model.findById(req.params.id)
-                await this.render(resp, next, document)
-            } catch (error) {
-                return next(new errors.InvalidContentError(error.message))
+                await this.render(resp, next, document, 200)
+            } catch (error) {             
+                return next(error)
             }
         }
 
@@ -35,9 +35,9 @@ class ModelRouter extends Router {
             try {
                 const model = await new this._model(req.body)
                 const document = await model.save()
-                await this.render(resp, next, document)
-            } catch (error) {
-                return next(new errors.InternalError(error.message))
+                await this.render(resp, next, document, 201)
+            } catch (error) {                
+                return next(new errors.InvalidContentError(error))
             }
         }
 
@@ -45,7 +45,7 @@ class ModelRouter extends Router {
             try {
                 const options = { new: true }
                 const document = await this._model.findByIdAndUpdate(req.params.id, req.body, options)
-                await this.render(resp, next, document)
+                await this.render(resp, next, document, 202)
                 return next()
             } catch (error) {
                 return next(new errors.InvalidContentError(error.message))
