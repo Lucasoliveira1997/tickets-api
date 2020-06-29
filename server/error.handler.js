@@ -1,18 +1,24 @@
 'use strict'
 
 module.exports = (req, resp, err, done) => {
-    console.log(err.body)    
-    // err.toJSON = () => {        
-    //     return {            
-    //         message: err.code
-    //     }
-    // }
+    console.log(err.jse_cause)
+    err.toJSON = () => {                        
+        return {  
+            message: err.jse_cause.errmsg
+        }
+    }
 
-    // switch(err.name) {
-    //     case 'InvalidContentError' : 
-    //         err.statusCode = 400
-    //         break
-    // }
+    switch(err.jse_cause.name) {
+        case 'MongoError' : 
+            if(err.jse_cause.code === 11000) {
+                err.statusCode = 400
+            }
+            break
+        
+        // case 'ValidationError' {
+
+        // }
+    }
 
 
 
