@@ -1,7 +1,6 @@
 'use strict'
 
 module.exports = (req, resp, err, done) => {
-    console.log(err.jse_cause)
     err.toJSON = () => {                        
         return {  
             message: err.jse_cause.errmsg
@@ -15,12 +14,16 @@ module.exports = (req, resp, err, done) => {
             }
             break
         
-        // case 'ValidationError' {
+        case 'ValidationError' :
+            let messages = []
+            for(let error in err.jse_cause.errors) {
+                messages.push({message: err.jse_cause.errors[error].message})           
+            }
 
-        // }
-    }
+            err.toJSON = () => ({                        
+                errors: messages
+            })
 
-
-
+        }
     done()
 }
