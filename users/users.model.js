@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     phone: {type: String, required: true},
     status: {type: Boolean, required: true},
     category: {type: String, required: true, enum: ['user', 'admin']},
-    createdAt: {type: Date, default: Date.now}
+    createdAt: {type: Date, default: Date.now},
 })
 
 module.exports = mongoose.model('User', userSchema)

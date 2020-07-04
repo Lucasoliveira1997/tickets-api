@@ -3,6 +3,7 @@
 const Router = require('./router')
 const errors = require('restify-errors')
 const mongoose = require('mongoose')
+const md5 = require('md5')
 
 class ModelRouter extends Router {
     constructor(model) {
@@ -33,10 +34,13 @@ class ModelRouter extends Router {
             }
 
             try {
+                if(req.body.password) {
+                    req.body.password = md5(req.body.password)
+                }
                 const model = await new this._model(req.body)
                 const document = await model.save()
                 await this.render(resp, next, document, 201)
-            } catch (error) {                
+            } catch (error) {             
                 return next(new errors.InvalidContentError(error))
             }
         }
@@ -44,6 +48,9 @@ class ModelRouter extends Router {
         this.update = async (req, resp, next) => {
             try {
                 const options = { new: true }
+                if(req.body.password) {
+                    req.body.password = md5(req.body.password)
+                }
                 const document = await this._model.findByIdAndUpdate(req.params.id, req.body, options)
                 await this.render(resp, next, document, 202)
                 return next()
