@@ -6,9 +6,12 @@ const mongoose = require('mongoose')
 const md5 = require('md5')
 
 class ModelRouter extends Router {
+
     constructor(model) {
         super(Router)
         this._model = mongoose.model(model)
+
+        this.basePath = `/${this._model.collection.name}`   
 
         this.get = async (req, resp, next) => {
             try {

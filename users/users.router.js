@@ -5,13 +5,13 @@ const _modelRouter = require('../common/model.router')
 const modelRouter = new _modelRouter('User')
 
 module.exports = server => {
-    server.post('/users', modelRouter.save)
+    server.post(`${modelRouter.basePath}`, modelRouter.save)
 
-    server.get('/users', modelRouter.get)
+    server.get(`${modelRouter.basePath}`, modelRouter.get)
 
-    server.get('/users/:id', modelRouter.getById)
+    server.get(`${modelRouter.basePath}/:id`, modelRouter.getById)
 
-    server.put('/users/:id', modelRouter.update)
+    server.put(`${modelRouter.basePath}/:id`, modelRouter.update)
 
-    server.del('/users/:id', modelRouter.delete)
+    server.del(`${modelRouter.basePath}/:id`, modelRouter.delete)
 }

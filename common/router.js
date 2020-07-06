@@ -4,6 +4,10 @@ const NotFoundError = require('restify-errors').NotFoundError
 
 class Router extends EventEmmiter {
 
+    envelope(document) {
+        return document
+    }
+
     render(resp, next, document, status) {           
             if(document) {
                 this.emit('beforeRender', document)
