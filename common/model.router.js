@@ -7,17 +7,26 @@ const md5 = require('md5')
 
 class ModelRouter extends Router {
 
+    envelope(document) {
+        const result = Object.assign(
+            { _links: { self: `${this.basePath}/${document._id}` } },
+            document.toJSON()
+        )
+        return result
+    }
+
     constructor(model) {
         super(Router)
         this._model = mongoose.model(model)
 
-        this.basePath = `/${this._model.collection.name}`   
+        this.basePath = `/${this._model.collection.name}`
 
         this.get = async (req, resp, next) => {
             try {
-                const document = await this._model.find({})
-                return this.render(resp, next, document, 200)
+                const documents = await this._model.find({})
+                return this.renderAll(resp, next, documents, 200)
             } catch (error) {
+                console.log(error)
                 next(new errors.NotFoundError('Document Not Found'))
             }
         }
@@ -26,7 +35,7 @@ class ModelRouter extends Router {
             try {
                 const document = await this._model.findById(req.params.id)
                 await this.render(resp, next, document, 200)
-            } catch (error) {             
+            } catch (error) {
                 return next(error)
             }
         }
@@ -37,13 +46,13 @@ class ModelRouter extends Router {
             }
 
             try {
-                if(req.body.password) {
+                if (req.body.password) {
                     req.body.password = md5(req.body.password)
                 }
                 const model = await new this._model(req.body)
                 const document = await model.save()
                 await this.render(resp, next, document, 201)
-            } catch (error) {             
+            } catch (error) {
                 return next(new errors.InvalidContentError(error))
             }
         }
@@ -51,7 +60,7 @@ class ModelRouter extends Router {
         this.update = async (req, resp, next) => {
             try {
                 const options = { new: true }
-                if(req.body.password) {
+                if (req.body.password) {
                     req.body.password = md5(req.body.password)
                 }
                 const document = await this._model.findByIdAndUpdate(req.params.id, req.body, options)
@@ -72,7 +81,5 @@ class ModelRouter extends Router {
             }
         }
     }
-
 }
-
 module.exports = ModelRouter
