@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Lucasoliveira1997/tickets-api#readme",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "md5": "^2.2.1",
     "mongoose": "^5.9.14",
     "restify": "8.5.1",

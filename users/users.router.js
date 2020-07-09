@@ -1,8 +1,9 @@
 'use strict'
 require('./users.model')
-
 const _modelRouter = require('../common/model.router')
 const modelRouter = new _modelRouter('User')
+
+const auth = require('./users.auth')
 
 module.exports = server => {
     server.post(`${modelRouter.basePath}`, modelRouter.save)

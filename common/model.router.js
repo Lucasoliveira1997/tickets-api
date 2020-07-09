@@ -21,12 +21,23 @@ class ModelRouter extends Router {
 
         this.basePath = `/${this._model.collection.name}`
 
+        this.authenticate = async (req, resp, next) => {
+            try {
+                const {email, password} = req.body
+
+                userAuthenticated = await this._model.findOne({email, password})
+                return userAuthenticated
+                
+            } catch (error) {
+                next(new errors.ForbiddenError(error))
+            }
+        }
+
         this.get = async (req, resp, next) => {
             try {
                 const documents = await this._model.find({})
                 return this.renderAll(resp, next, documents, 200)
             } catch (error) {
-                console.log(error)
                 next(new errors.NotFoundError('Document Not Found'))
             }
         }
@@ -36,7 +47,7 @@ class ModelRouter extends Router {
                 const document = await this._model.findById(req.params.id)
                 await this.render(resp, next, document, 200)
             } catch (error) {
-                return next(error)
+                return next(new errors.InvalidContentError(error))
             }
         }
 
