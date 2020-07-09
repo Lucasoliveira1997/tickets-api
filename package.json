@@ -4,6 +4,7 @@
   "description": "Helpdesk system where the focus is create e solve tickets about Technology",
   "main": "main.js",
   "scripts": {
+    "test": "",
     "dev": "nodemon",
     "production": ""
   },
