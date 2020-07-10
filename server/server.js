@@ -11,6 +11,8 @@ class Server {
             mongoose.set('useCreateIndex', true)
             mongoose.set('useFindAndModify', false)
             mongoose.connection.on('connected', () => console.log('Database is connected'))            
+            mongoose.connection.on('disconnected', () => console.log('Database is Disconnected'))            
+            mongoose.connection.on('error', () => console.log('Database failed'))            
             return mongoose.connect(environment.db.url, environment.db.options)
     }
 

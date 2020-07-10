@@ -7,13 +7,13 @@ const _modelRouter = require('../common/model.router')
 const modelRouter = new _modelRouter('Ticket')
 
 module.exports = server => {
-    server.post('/tickets', modelRouter.save)
+    server.post(modelRouter.basePath, modelRouter.save)
 
-    server.get('/tickets', modelRouter.get)
+    server.get(`${modelRouter.basePath}`, modelRouter.get)
 
-    server.get('/tickets/:id', modelRouter.getById)
+    server.get(`${modelRouter.basePath}/:id`, modelRouter.getById)
 
-    server.put('/tickets/:id', modelRouter.update)
+    server.put(`${modelRouter.basePath}/:id`, modelRouter.update)
 
-    server.del('/tickets/:id', modelRouter.delete)
+    server.del(`${modelRouter.basePath}/:id`, modelRouter.delete)
 }
