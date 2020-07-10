@@ -13,6 +13,7 @@ class ModelRouter extends Router {
 
         this.basePath = `/${this._model.collection.name}`   
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         this.authenticate = async (req, resp, next) => {
             try {
@@ -25,6 +26,8 @@ class ModelRouter extends Router {
                 next(new errors.ForbiddenError(error))
             }
         }
+=======
+>>>>>>> parent of 320d2d5... created links to improve the acess to getById for each document
 =======
 >>>>>>> parent of 320d2d5... created links to improve the acess to getById for each document
 
@@ -43,9 +46,12 @@ class ModelRouter extends Router {
                 await this.render(resp, next, document, 200)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             } catch (error) {
                 return next(new errors.InvalidContentError(error))
 =======
+=======
+>>>>>>> parent of 320d2d5... created links to improve the acess to getById for each document
 =======
 >>>>>>> parent of 320d2d5... created links to improve the acess to getById for each document
             } catch (error) {             
