@@ -8,8 +8,7 @@ module.exports = (req, resp, next) => {
 
     if(token) {
         try {
-            let decoded = jwt.decode(token, environment.security.publicKey)
-            req.body.userAuthenticated = decoded
+            jwt.verify(token, environment.security.publicKey)
             next()
 
         } catch (error) {
