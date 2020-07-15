@@ -1,10 +1,11 @@
 'use strict'
+'use strict'
 
 const jwt = require('jsonwebtoken')
 const environment = require('../common/environment')
 
 module.exports = (req, resp, next) => {
-    let token = req.headers['x-access-token']
+    const token = req.headers['x-access-token']
 
     if(token) {
         try {
@@ -13,10 +14,10 @@ module.exports = (req, resp, next) => {
 
         } catch (error) {
             resp.status(400)
-            resp.send({message: 'Token Inválido!'})
+            resp.send({message: 'Token Inválido'})
         }
     } else {
         resp.status(403)
-        resp.send({message: 'Acesso Negado!'})
+        return resp.send({message: 'Acesso Negado!'})
     }
 }

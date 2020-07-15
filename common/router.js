@@ -10,7 +10,6 @@ class Router extends EventEmmiter {
 
     render(resp, next, document, status) {           
             if(document) {
-                this.emit('beforeRender', document)
                 resp.status(status)
                 resp.send(document)
             } else {

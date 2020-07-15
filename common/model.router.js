@@ -8,43 +8,44 @@ const jwt = require('jsonwebtoken')
 const environment = require('./environment')
 
 class ModelRouter extends Router {
-
     constructor(model) {
         super(Router)
         this._model = mongoose.model(model)
-
         this.basePath = `/${this._model.collection.name}`
 
         this.authenticate = async (req, resp, next) => {
-            try {     
-                let login = {}  
+            try {
+                let login = {}
 
-                if(req.body.email) {                    
-                    login = {email: req.body.email}
+                if (req.body.email) {
+                    login = { email: req.body.email }
 
                     let userAuthenticated = await this._model.findOne(login)
 
                     resp.status(200)
-                    resp.send({login: {
-                        user: userAuthenticated,
-                        token: jwt.sign({userAuthenticated}, environment.security.publicKey)
-                    }})
+                    resp.send({
+                        login: {
+                            user: userAuthenticated,
+                            token: jwt.sign({ userAuthenticated }, environment.security.publicKey)
+                        }
+                    })
                 } else {
                     resp.status(400)
-                    resp.send({message: 'Usuário ou senha incorretos'})
-                }               
-                
+                    resp.send({ message: 'Usuário ou senha incorretos' })
+                }
+
             } catch (error) {
-                next(new errors.ForbiddenError(error))
+                return next(new errors.ForbiddenError(error))
             }
         }
 
         this.get = async (req, resp, next) => {
             try {
-                const document = await this._model.find({})
-                return this.render(resp, next, document, 200)
+                const documents = await this._model.find()
+                await this.render(resp, next, documents, 200)
+
             } catch (error) {
-                next(new errors.NotFoundError('Document Not Found'))
+                return next(new errors.InvalidContentError(error))
             }
         }
 
@@ -52,6 +53,7 @@ class ModelRouter extends Router {
             try {
                 const document = await this._model.findById(req.params.id)
                 await this.render(resp, next, document, 200)
+
             } catch (error) {
                 return next(new errors.InvalidContentError(error))
             }
@@ -97,8 +99,6 @@ class ModelRouter extends Router {
             }
         }
     }
-
 }
-
 
 module.exports = ModelRouter
