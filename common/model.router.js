@@ -8,6 +8,11 @@ const jwt = require('jsonwebtoken')
 const environment = require('./environment')
 
 class ModelRouter extends Router {
+    envelope(document) {
+        let result = Object.assign({_links: {self: `${this.basePath}/${document._id}`}}, document.toJSON())
+        return result
+    }
+
     constructor(model) {
         super(Router)
         this._model = mongoose.model(model)
@@ -35,6 +40,7 @@ class ModelRouter extends Router {
                 }
 
             } catch (error) {
+                console.log(error)
                 return next(new errors.ForbiddenError(error))
             }
         }
@@ -42,7 +48,7 @@ class ModelRouter extends Router {
         this.get = async (req, resp, next) => {
             try {
                 const documents = await this._model.find()
-                await this.render(resp, next, documents, 200)
+                await this.renderAll(resp, next, documents, 200)
 
             } catch (error) {
                 return next(new errors.InvalidContentError(error))

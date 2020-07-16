@@ -1,29 +1,32 @@
 'use strict'
 
 module.exports = (req, resp, err, done) => {
-    // err.toJSON = () => {                        
-    //     return {  
-    //         message: err.jse_cause.errmsg
-    //     }
-    // }
+    err.toJSON = () => {
+        return {
+            message: err.jse_cause.errmsg,
+            text: err.body
+        }
+    }
 
-    // switch(err.jse_cause.name) {
-    //     case 'MongoError' : 
-    //         if(err.jse_cause.code === 11000) {
-    //             err.statusCode = 400
-    //         }
-    //         break
-        
-    //     case 'ValidationError' :
-    //         let messages = []
-    //         for(let error in err.jse_cause.errors) {
-    //             messages.push({message: err.jse_cause.errors[error].message})           
-    //         }
+    switch (err.jse_cause.name) {
+        case 'MongoError':
+            if (err.jse_cause.code === 11000) {
+                err.statusCode = 400
+            }
+            break
 
-    //         err.toJSON = () => ({                        
-    //             errors: messages
-    //         })
+        case 'ValidationError':
+            let messages = []
+            for (let error in err.jse_cause.errors) {
+                messages.push({ message: err.jse_cause.errors[error].message })
+            }
 
-    //     }
+            err.toJSON = () => ({
+                errors: messages
+            })
+
+        case 'TypeError':
+            break;
+    }
     done()
 }
