@@ -31,20 +31,78 @@ Then you can start the project on port 4000 with command:
 ##### Resourcing
 
 - /users: to manage CRUD function of Users
+
     - GET http://localhost:4000/users
+        - Status Code: 200
     ```sh
         [
             {
                 "_links": {
-                    "self": "/users/5ec69cf0d2ef79453470328d"
-                },
-                "_id": "5ec69cf0d2ef79453470328d",
-                "name": "Lucas",
-                "email": "lucas@gmail.com",
+                "self": "/users/5f11e942e1143034bc6b4d4c"
+            },
+                "_id": "5f11e942e1143034bc6b4d4c",
+                "name": "Fulano",
+                "email": "fulano@email.com",
                 "department": "ti",
-                "password": "123",
-                "createdAt": "2020-05-21T15:23:28.962Z"
+                "password": "202cb962ac59075b964b07152d234b70",
+                "phone": "(00) 0 0000-0000",
+                "category": "user",
+                "status": true,
+                "createdAt": "2020-07-17T18:09:06.992Z"
             }
         ]
+    ```
+
+    - POST http://localhost:4000/users
+        - Status Code: 201
+    ```sh
+        {
+            "name": "Fulano",
+            "email": "fulano@email.com",
+            "department": "ti",
+            "password": "123",
+            "phone": "(00) 0 0000-0000",
+            "category": "user",
+            "status": "true"
+        }
+    ```
+
+    - GET ID http://localhost:4000/users/ObjectId()
+        - Status Code: 200
+    ```sh
+        {
+            "_links": {
+            "self": "/users/5f11e942e1143034bc6b4d4c"
+        },
+            "_id": "5f11e942e1143034bc6b4d4c",
+            "name": "Fulano",
+            "email": "fulano@email.com",
+            "department": "ti",
+            "password": "202cb962ac59075b964b07152d234b70",
+            "phone": "(00) 0 0000-0000",
+            "category": "user",
+            "status": true,
+            "createdAt": "2020-07-17T18:09:06.992Z"
+        }
+    ```
+
+    - PUT http://localhost:4000/users/ObjectId()
+        - Status Code: 202
+    ```sh
+        {
+            "name": "Fulano",
+            "email": "fulano@email.com",
+            "department": "ti",
+            "password": "123",
+            "phone": "(00) 0 0000-0000",
+            "category": "user",
+            "status": "true"
+        }
+    ```
+
+    - DELETE http://localhost:4000/users/ObjectId()
+        - Status Code: 204
+    ```sh
+        (No content)
     ```
 - /
