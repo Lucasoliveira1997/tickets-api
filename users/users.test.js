@@ -4,8 +4,8 @@ const request = require('supertest')
 test('GET /users', () => {
     return request('http://localhost:4000').get('/users')
         .then(resp => {
-            console.log(resp)
-
+            expect(resp.status).toBe(200)     
+            expect(resp.body.items).toBeInstanceOf(Array)       
         }).catch(fail)
         
 })

@@ -10,11 +10,11 @@ module.exports = server => {
 
     server.post(`${modelRouter.basePath}`, modelRouter.save)
 
-    server.get(`${modelRouter.basePath}`, auth, modelRouter.get)
+    server.get(`${modelRouter.basePath}`, /*auth,*/ modelRouter.get)
 
-    server.get(`${modelRouter.basePath}/:id`, auth, modelRouter.getById)
+    server.get(`${modelRouter.basePath}/:id`, /*auth,*/ modelRouter.getById)
 
-    server.put(`${modelRouter.basePath}/:id`, auth, modelRouter.update)
+    server.put(`${modelRouter.basePath}/:id`, /*auth,*/ modelRouter.update)
 
-    server.del(`${modelRouter.basePath}/:id`, auth, modelRouter.delete)
+    server.del(`${modelRouter.basePath}/:id`, /*auth,*/ modelRouter.delete)
 }
